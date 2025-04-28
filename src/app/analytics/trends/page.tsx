@@ -1,7 +1,7 @@
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import { TransactionChart } from "@/components/charts/transaction-chart"
 
 const mockData = [
   { date: '2024-01', btc: 4000, eth: 2400 },
@@ -53,18 +53,7 @@ export default function TrendsPage() {
           <CardTitle>Transaction Volume Over Time</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="h-[400px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={mockData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip />
-                <Line type="monotone" dataKey="btc" stroke="#8884d8" name="BTC" />
-                <Line type="monotone" dataKey="eth" stroke="#82ca9d" name="ETH" />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
+          <TransactionChart data={mockData} />
         </CardContent>
       </Card>
     </div>
