@@ -3,19 +3,20 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/navbar";
+import { MobileThemeToggle } from "@/components/mobile-theme-toggle";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Whalescale.ai - Track Whale Transactions",
-  description: "Real-time tracking of large Bitcoin and Ethereum transactions",
+  title: "Whalescale - Track Whale Transactions",
+  description: "Real-time tracking of large blockchain transactions",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
@@ -25,11 +26,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="min-h-screen bg-background">
+          <div className="min-h-screen bg-white dark:bg-black">
             <Navbar />
-            <main className="container mx-auto px-4 py-8">
-              {children}
-            </main>
+            <main className="container mx-auto px-4 py-8">{children}</main>
+            <MobileThemeToggle />
           </div>
         </ThemeProvider>
       </body>
