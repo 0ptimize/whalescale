@@ -37,22 +37,22 @@ export function WhaleTable() {
       <table className="w-full">
         <thead>
           <tr className="border-b border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-700">
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            <th className="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
               Blockchain
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            <th className="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
               From
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            <th className="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
               To
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            <th className="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
               Amount
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            <th className="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
               Entity
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            <th className="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
               Time
             </th>
           </tr>
@@ -100,22 +100,39 @@ export function WhaleTable() {
                 </div>
               </td>
               <td className="whitespace-nowrap px-6 py-4">
-                <div className="text-sm text-gray-900 dark:text-gray-100">
-                  {tx.from.slice(0, 6)}...{tx.from.slice(-4)}
+                <div className="flex items-center">
+                  <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                    {tx.from.slice(0, 6)}...{tx.from.slice(-4)}
+                  </div>
+                  <button className="ml-2 text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400">
+                    <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5H6V3H4v2H2v2h2v2h2V7h2V5zm10 0h-2V3h-2v2h-2v2h2v2h2V7h2V5zM8 15H6v-2H4v2H2v2h2v2h2v-2h2v-2zm10 0h-2v-2h-2v2h-2v2h2v2h2v-2h2v-2z" />
+                    </svg>
+                  </button>
                 </div>
               </td>
               <td className="whitespace-nowrap px-6 py-4">
-                <div className="text-sm text-gray-900 dark:text-gray-100">
-                  {tx.to.slice(0, 6)}...{tx.to.slice(-4)}
+                <div className="flex items-center">
+                  <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                    {tx.to.slice(0, 6)}...{tx.to.slice(-4)}
+                  </div>
+                  <button className="ml-2 text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400">
+                    <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5H6V3H4v2H2v2h2v2h2V7h2V5zm10 0h-2V3h-2v2h-2v2h2v2h2V7h2V5zM8 15H6v-2H4v2H2v2h2v2h2v-2h2v-2zm10 0h-2v-2h-2v2h-2v2h2v2h2v-2h2v-2z" />
+                    </svg>
+                  </button>
                 </div>
               </td>
               <td className="whitespace-nowrap px-6 py-4">
                 <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
                   {tx.amount.toLocaleString()} {tx.blockchain}
                 </div>
+                <div className="text-xs text-gray-500 dark:text-gray-400">
+                  ${(tx.amount * (tx.blockchain === "BTC" ? 50000 : 3000)).toLocaleString()}
+                </div>
               </td>
               <td className="whitespace-nowrap px-6 py-4">
-                <div className="text-sm text-gray-900 dark:text-gray-100">
+                <div className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-200">
                   {tx.entity}
                 </div>
               </td>
