@@ -11,15 +11,30 @@ interface EtherscanResponse {
 
 export async function GET() {
   try {
+    if (!ETHERSCAN_API_KEY) {
+      console.error('Etherscan API key is missing');
+      return NextResponse.json(
+        { error: 'Etherscan API key is not configured' },
+        { status: 500 }
+      );
+    }
+
     // Get the latest block number
     const blockNumberResponse = await fetch(
       `${ETHERSCAN_API_URL}?module=proxy&action=eth_blockNumber&apikey=${ETHERSCAN_API_KEY}`
     );
     const blockNumberData = await blockNumberResponse.json();
+    
+    if (blockNumberData.status !== '1') {
+      console.error('Failed to get block number:', blockNumberData);
+      throw new Error(`Failed to get block number: ${blockNumberData.message}`);
+    }
+
     const latestBlock = parseInt(blockNumberData.result, 16);
+    console.log('Latest block:', latestBlock);
 
     // Get the last 1000 blocks worth of transactions
-    const fromBlock = latestBlock - 1000;
+    const fromBlock = Math.max(0, latestBlock - 1000);
     const toBlock = latestBlock;
 
     // Get transaction logs
@@ -28,9 +43,16 @@ export async function GET() {
     );
 
     const data: EtherscanResponse = await response.json();
+    console.log('Etherscan response:', data);
 
     if (data.status !== '1') {
+      console.error('Etherscan API error:', data);
       throw new Error(`Etherscan API error: ${data.message}`);
+    }
+
+    if (!Array.isArray(data.result)) {
+      console.error('Invalid response format:', data);
+      throw new Error('Invalid response format from Etherscan API');
     }
 
     // Filter and sort transactions by value
@@ -50,11 +72,13 @@ export async function GET() {
         gasPrice: parseInt(tx.gasPrice) / 1e9, // Convert to Gwei
       }));
 
+    console.log('Processed transactions:', largeTransactions);
+
     return NextResponse.json(largeTransactions);
   } catch (error) {
     console.error('Error fetching transactions:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch transactions' },
+      { error: error instanceof Error ? error.message : 'Failed to fetch transactions' },
       { status: 500 }
     );
   }
