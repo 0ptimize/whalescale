@@ -1,51 +1,61 @@
 "use client"
 
 import { WhaleTable } from "@/components/whale-table"
+import { ArrowRight } from "lucide-react"
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gray-50 pt-16 dark:bg-gray-900">
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mb-8 flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-              Whale Transactions
-            </h1>
-            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-              Track large blockchain transactions in real-time
-            </p>
+    <main className="min-h-screen bg-white dark:bg-black">
+      {/* Hero Section */}
+      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-50/50 to-white dark:from-gray-900/50 dark:to-black" />
+        <div className="relative z-10 text-center px-4">
+          <h1 className="text-6xl md:text-8xl font-light tracking-tight text-gray-900 dark:text-white mb-6">
+            Whalescale
+          </h1>
+          <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8">
+            Real-time tracking of significant blockchain transactions
+          </p>
+          <div className="flex items-center justify-center gap-4">
+            <button className="px-6 py-3 bg-black text-white rounded-full hover:bg-gray-900 transition-colors dark:bg-white dark:text-black dark:hover:bg-gray-100">
+              View Dashboard
+            </button>
+            <button className="px-6 py-3 border border-gray-300 rounded-full hover:bg-gray-50 transition-colors dark:border-gray-700 dark:hover:bg-gray-900">
+              Learn More <ArrowRight className="inline-block ml-2 h-4 w-4" />
+            </button>
           </div>
-          <div className="flex items-center space-x-4">
-            <div className="rounded-lg bg-white p-4 shadow-sm dark:bg-gray-800">
-              <div className="text-sm font-medium text-gray-500 dark:text-gray-400">Total Volume (24h)</div>
-              <div className="mt-1 text-2xl font-bold text-gray-900 dark:text-gray-100">$124.5M</div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-24 bg-gray-50 dark:bg-gray-900">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="p-8 rounded-2xl bg-white dark:bg-gray-800 shadow-sm">
+              <h3 className="text-4xl font-light text-gray-900 dark:text-white mb-2">$124.5M</h3>
+              <p className="text-gray-600 dark:text-gray-400">24h Volume</p>
             </div>
-            <div className="rounded-lg bg-white p-4 shadow-sm dark:bg-gray-800">
-              <div className="text-sm font-medium text-gray-500 dark:text-gray-400">Active Whales</div>
-              <div className="mt-1 text-2xl font-bold text-gray-900 dark:text-gray-100">42</div>
+            <div className="p-8 rounded-2xl bg-white dark:bg-gray-800 shadow-sm">
+              <h3 className="text-4xl font-light text-gray-900 dark:text-white mb-2">42</h3>
+              <p className="text-gray-600 dark:text-gray-400">Active Whales</p>
+            </div>
+            <div className="p-8 rounded-2xl bg-white dark:bg-gray-800 shadow-sm">
+              <h3 className="text-4xl font-light text-gray-900 dark:text-white mb-2">1.2K</h3>
+              <p className="text-gray-600 dark:text-gray-400">Daily Alerts</p>
             </div>
           </div>
         </div>
-        <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-800">
-          <div className="border-b border-gray-200 bg-gray-50 px-6 py-4 dark:border-gray-700 dark:bg-gray-700">
-            <div className="flex items-center justify-between">
-              <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">Recent Transactions</h2>
-              <div className="flex items-center space-x-4">
-                <button className="rounded-lg bg-gray-100 px-3 py-1.5 text-sm font-medium text-gray-900 hover:bg-gray-200 dark:bg-gray-600 dark:text-gray-100 dark:hover:bg-gray-500">
-                  All
-                </button>
-                <button className="rounded-lg px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700">
-                  BTC
-                </button>
-                <button className="rounded-lg px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700">
-                  ETH
-                </button>
-              </div>
-            </div>
+      </section>
+
+      {/* Transactions Section */}
+      <section className="py-24">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-4xl font-light text-gray-900 dark:text-white mb-8">Recent Transactions</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden">
+            <WhaleTable />
           </div>
-          <WhaleTable />
         </div>
-      </div>
+      </section>
     </main>
   )
 }
