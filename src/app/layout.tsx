@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Whalescale - Track Whale Transactions",
-  description: "Real-time tracking of large blockchain transactions",
+  description: "Tracking whales on the blockchain",
 };
 
 export default function RootLayout({
