@@ -1,129 +1,133 @@
 "use client"
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
 import { formatDistanceToNow } from "date-fns"
-import { ArrowUpRight, ArrowDownLeft } from "lucide-react"
+import { Bitcoin } from "lucide-react"
 
 interface Transaction {
-  id: string
   blockchain: "BTC" | "ETH"
-  amount: number
-  usdSize: number
   from: string
   to: string
-  timestamp: Date
-  entity?: string
+  amount: number
+  entity: string
+  time: Date
 }
 
 const mockTransactions: Transaction[] = [
   {
-    id: "1",
     blockchain: "BTC",
-    amount: 100,
-    usdSize: 4350000, // $43.5M
-    from: "bc1q...xyz",
-    to: "bc1q...abc",
-    timestamp: new Date(),
+    from: "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
+    to: "3FZbgi29cpjq2GjdwV8eyHuJJnkLtktZc5",
+    amount: 1000,
     entity: "Binance",
+    time: new Date(),
   },
   {
-    id: "2",
     blockchain: "ETH",
-    amount: 1000,
-    usdSize: 2500000, // $2.5M
-    from: "0x123...xyz",
-    to: "0x456...abc",
-    timestamp: new Date(Date.now() - 3600000),
+    from: "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+    to: "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed",
+    amount: 5000,
     entity: "Coinbase",
+    time: new Date(Date.now() - 1000 * 60 * 5),
   },
 ]
 
-function formatUSD(amount: number): string {
-  if (amount >= 1000000000) {
-    return `$${(amount / 1000000000).toFixed(2)}B`
-  }
-  if (amount >= 1000000) {
-    return `$${(amount / 1000000).toFixed(2)}M`
-  }
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount)
-}
-
-function formatCrypto(amount: number, blockchain: string): string {
-  return `${amount.toLocaleString()} ${blockchain}`
-}
-
 export function WhaleTable() {
   return (
-    <div className="p-1">
-      <Table>
-        <TableHeader>
-          <TableRow className="hover:bg-transparent">
-            <TableHead className="w-[100px] text-muted-foreground">Blockchain</TableHead>
-            <TableHead className="text-muted-foreground">Amount</TableHead>
-            <TableHead className="text-muted-foreground">USD</TableHead>
-            <TableHead className="text-muted-foreground">Entity</TableHead>
-            <TableHead className="text-muted-foreground">Time</TableHead>
-            <TableHead className="text-muted-foreground">From</TableHead>
-            <TableHead className="text-muted-foreground">To</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {mockTransactions.map((tx) => (
-            <TableRow 
-              key={tx.id} 
-              className="group cursor-pointer transition-all hover:bg-slate-50 dark:hover:bg-slate-700/50"
-            >
-              <TableCell className="font-medium">
-                <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ${
-                  tx.blockchain === "BTC" 
-                    ? "bg-orange-500/20 text-orange-600 dark:text-orange-400 ring-1 ring-orange-500/20" 
-                    : "bg-blue-500/20 text-blue-600 dark:text-blue-400 ring-1 ring-blue-500/20"
-                }`}>
-                  {tx.blockchain}
-                </span>
-              </TableCell>
-              <TableCell className="font-mono text-foreground/90">
-                {formatCrypto(tx.amount, tx.blockchain)}
-              </TableCell>
-              <TableCell className="font-mono font-semibold text-green-600 dark:text-green-400">
-                {formatUSD(tx.usdSize)}
-              </TableCell>
-              <TableCell>
-                <span className="inline-flex items-center rounded-md bg-slate-100 px-2.5 py-1 text-xs font-medium ring-1 ring-slate-200 dark:bg-slate-700 dark:ring-slate-600">
-                  {tx.entity || "Unknown"}
-                </span>
-              </TableCell>
-              <TableCell className="text-muted-foreground">
-                {formatDistanceToNow(tx.timestamp, { addSuffix: true })}
-              </TableCell>
-              <TableCell className="font-mono">
-                <div className="flex items-center gap-1.5 text-red-500 dark:text-red-400">
-                  <ArrowUpRight className="h-3.5 w-3.5" />
-                  <span className="text-foreground/80">{tx.from}</span>
+    <div className="overflow-x-auto">
+      <table className="w-full">
+        <thead>
+          <tr className="border-b border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-700">
+            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+              Blockchain
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+              From
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+              To
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+              Amount
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+              Entity
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+              Time
+            </th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+          {mockTransactions.map((tx, i) => (
+            <tr key={i} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+              <td className="whitespace-nowrap px-6 py-4">
+                <div className="flex items-center">
+                  {tx.blockchain === "BTC" ? (
+                    <Bitcoin className="h-5 w-5 text-orange-500" />
+                  ) : (
+                    <svg
+                      className="h-5 w-5 text-blue-500"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12 2L2 7L12 12L22 7L12 2Z"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M2 17L12 22L22 17"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M2 12L12 17L22 12"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  )}
+                  <span className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                    {tx.blockchain}
+                  </span>
                 </div>
-              </TableCell>
-              <TableCell className="font-mono">
-                <div className="flex items-center gap-1.5 text-green-500 dark:text-green-400">
-                  <ArrowDownLeft className="h-3.5 w-3.5" />
-                  <span className="text-foreground/80">{tx.to}</span>
+              </td>
+              <td className="whitespace-nowrap px-6 py-4">
+                <div className="text-sm text-gray-900 dark:text-gray-100">
+                  {tx.from.slice(0, 6)}...{tx.from.slice(-4)}
                 </div>
-              </TableCell>
-            </TableRow>
+              </td>
+              <td className="whitespace-nowrap px-6 py-4">
+                <div className="text-sm text-gray-900 dark:text-gray-100">
+                  {tx.to.slice(0, 6)}...{tx.to.slice(-4)}
+                </div>
+              </td>
+              <td className="whitespace-nowrap px-6 py-4">
+                <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                  {tx.amount.toLocaleString()} {tx.blockchain}
+                </div>
+              </td>
+              <td className="whitespace-nowrap px-6 py-4">
+                <div className="text-sm text-gray-900 dark:text-gray-100">
+                  {tx.entity}
+                </div>
+              </td>
+              <td className="whitespace-nowrap px-6 py-4">
+                <div className="text-sm text-gray-500 dark:text-gray-400">
+                  {formatDistanceToNow(tx.time, { addSuffix: true })}
+                </div>
+              </td>
+            </tr>
           ))}
-        </TableBody>
-      </Table>
+        </tbody>
+      </table>
     </div>
   )
 } 
